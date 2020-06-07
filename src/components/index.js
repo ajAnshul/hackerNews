@@ -1,17 +1,7 @@
 import React from 'react';
 import Table from './Table';
 import Paginations from './Paginations';
-import { useParams } from 'react-router-dom'
 import TimeLine from './TimeLine';
-
-
-function usePagenumber() {
-    let { pageNumber } = useParams();
-  
-    return pageNumber;
-  }
-
-  
 
 export default class Content extends React.Component {
     constructor(props) {
@@ -21,16 +11,6 @@ export default class Content extends React.Component {
             pageNumber:1
         }
     }
-
-    componentWillMount(){
-        let { pageNumber } = this.props.match.params;
-        let { history } = this.props;
-        console.log("componentWillMount called")
-        if(!pageNumber){
-            history.push(`/page/${1}`);
-        }
-    }
-
 
     updateNews(data, pageNumber){
         this.setState({
@@ -45,7 +25,6 @@ export default class Content extends React.Component {
             news:data,
             pageNumber:pageNumber
         }
-        console.log("page to update", obj);
         localStorage.setItem('hackerNews',JSON.stringify(obj));
     }
 
@@ -55,7 +34,6 @@ export default class Content extends React.Component {
     }
 
     fetchNews(pageNumber){
-        console.log("got page to fetch", pageNumber);
         let url = `https://hn.algolia.com/api/v1/search?page=${pageNumber}`;
         let options = {
             method:'GET'
@@ -64,14 +42,15 @@ export default class Content extends React.Component {
         promise.then((res)=>{
             return res.json();
         }).then((result)=>{
-            console.log("got res", result);
             this.updateNews(result.hits, pageNumber);
         })
     }
 
     componentDidMount() {
-        // console.log("got pagenumber from router", pageNumber)
-        let { pageNumber } = this.props.match.params;
+        let pageNumber = 1;
+        if(this.props.match && this.props.match.params){
+            pageNumber = this.props.match.params.pageNumber;
+        }
         let hackerNews = JSON.parse(localStorage.getItem('hackerNews'));
         if(hackerNews && hackerNews.hasOwnProperty('pageNumber') && Number(pageNumber)  === Number(hackerNews.pageNumber)){
             this.getStorageData();
@@ -87,14 +66,14 @@ export default class Content extends React.Component {
             this.setState({
                 pageNumber:pageNumber
             })
-            this.props.history.push('/page/'+pageNumber);
-
+            if(this.props.history){
+                this.props.history.push('/page/'+pageNumber);
+            }
         }
     }
 
     handleUpvoteClick(objectId){
         let { news } = this.state;
-        console.log("handleUpvoteClick called", objectId)
         let index = news.findIndex(item => item.objectID === objectId);
         if(index >= 0){
             news[index].points++;
@@ -104,27 +83,19 @@ export default class Content extends React.Component {
 
     handleHideClick(objectID){
         let { news } = this.state;
-        console.log("handleHideClick called", objectID)
         let index = news.findIndex(item => item.objectID === objectID);
         if(index >= 0){
             news.splice(index, 1);
             this.updateNews(news, this.state.pageNumber);
         }
     }
-
-
-
-
     render() {
-
-        console.log(this.props.params);
-        console.log("", this.props)
         return (
-            <>
+            <div>
                 <Table handleHideClick={this.handleHideClick.bind(this)} news={this.state.news} handleUpvoteClick={this.handleUpvoteClick.bind(this)} />
                 <Paginations history={this.props.history} setPage={this.setPage.bind(this)} page={this.state.pageNumber} />
                 <TimeLine chartData={getChartData(this.state.news)} axisValues={['Votes', 'ID']} />
-            </>
+            </div>
         )
     }
 }

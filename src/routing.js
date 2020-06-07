@@ -3,9 +3,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
-    Redirect,
-    useParams
+    Redirect
 } from "react-router-dom";
 import AppContent from './components';
 

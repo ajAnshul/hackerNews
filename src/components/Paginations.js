@@ -1,17 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
-const pagination = ({setPage, page})=>{
-    return(
+const Pagination = ({ setPage, page }) => {
+    return (
         <>
-            <button 
-                onClick={()=>setPage(page-1)}
-            >Prev</button>
-            <button 
-                onClick={()=>setPage(page+1)}
-            >Next</button>
+            <ul class="pager">
+                <li onClick={() => setPage(page - 1) }>Previous</li>
+                <li onClick={() => setPage(page + 1)} >Next</li>
+            </ul>
         </>
     )
 }
 
-export default pagination;
+Pagination.propTypes = {
+    page: PropTypes.number,
+    setPage: PropTypes.func
+};
+
+export default Pagination;

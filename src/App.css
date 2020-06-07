@@ -15,6 +15,21 @@
 }
 .extra-info{
   font-size: 10px;
+  color:grey;
+  margin-left:.5em;
+  margin-right: .5em;
+}
+
+.created-time{
+  margin-left:.5em;
+  margin-right: .5em;
+}
+
+.author-name{
+  font-weight: 600;
+  margin-left:.5em;
+  margin-right: .5em;
+  color:black;
 }
 
 .timeline-wrapper{
@@ -29,7 +44,16 @@
 .left-align{
   text-align: left;
 }
+.hide-link{
+  cursor: pointer;
+  color:black;
+  margin-left:.5em;
+  margin-right: .5em;
+}
 
+.blog-link{
+  color:grey;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
