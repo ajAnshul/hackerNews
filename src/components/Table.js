@@ -66,7 +66,7 @@ export default class Table extends React.Component {
         )
     }
 
-    getUrl = (url) => {
+    getUrl(url){
         return(
             <a href={url} target="_blank" className="blog-link">
                 {`{${getBaseUrl(url)}}`}
