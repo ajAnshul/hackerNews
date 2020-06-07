@@ -12,7 +12,7 @@ const PORT = 8000;
 const app = express();
 
 app.use("^/$", (req, res, next) => {
-  fs.readFile(path.resolve("../build/index.html"), "utf-8", (err, data) => {
+  fs.readFile(path.resolve("./build/index.html"), "utf-8", (err, data) => {
     if (err) {
       console.log(err);
       return res.status(500).send("Some error happened");
@@ -21,15 +21,15 @@ app.use("^/$", (req, res, next) => {
   });
 });
 
-app.get("/page/:pageNumber", (req, res, next) => {
-    fs.readFile(path.resolve("../build/index.html"), "utf-8", (err, data) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send("Some error happened");
-      }
-      return res.send(data);
-    });
-  });
+// app.get("/page/:pageNumber", (req, res, next) => {
+//     fs.readFile(path.resolve("../build/index.html"), "utf-8", (err, data) => {
+//       if (err) {
+//         console.log(err);
+//         return res.status(500).send("Some error happened");
+//       }
+//       return res.send(data);
+//     });
+//   });
 
 app.use(express.static(path.resolve(__dirname, '..', 'build')))
 

@@ -16,7 +16,7 @@ export default function routes(){
                 <Route path="/page/:pageNumber" component={AppContent}  >
                 </Route>
                 <Route path="/">
-                    <Redirect to="/page/:1" />
+                    <Redirect to="/page/1" />
                 </Route>
             </Switch>
         </Router>
