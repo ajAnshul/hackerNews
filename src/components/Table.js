@@ -67,9 +67,11 @@ export default class Table extends React.Component {
     }
 
     getUrl(url){
+        let baseUrl = getBaseUrl(url);
+        if(!baseUrl) return '';
         return(
             <a href={url} target="_blank" className="blog-link">
-                {`{${getBaseUrl(url)}}`}
+                {`{${baseUrl}}`}
             </a>
         )
     }
@@ -101,7 +103,7 @@ export default class Table extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
+            <div className="table-responsive ">
                 <table className="table table-wrapper table-striped">
                     <thead>
                         {this.getHeader()}
