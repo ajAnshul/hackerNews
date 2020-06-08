@@ -61,10 +61,15 @@ a:hover {
 
 .timeline-wrapper{
   width: 100%;
-  margin:1em;
+  padding:1em;
   border-bottom: 1px solid orange;
   border-top: 1px solid orange;
+  margin-top: 1em;
 
+}
+
+.disabled{
+  cursor:not-allowed;
 }
 
 .number-col{

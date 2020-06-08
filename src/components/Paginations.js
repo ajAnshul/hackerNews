@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 
 const Pagination = ({ setPage, page }) => {
+    console.log("got page", page);
     return (
         <div className="pagination-wrapper">
-            <a  onClick={() => setPage(page - 1) } href="#" class="previous">Previous</a>
-            <a onClick={() => setPage(page + 1)} href="#" class="next">Next </a>
+            <a  onClick={() => {
+                if(page != 1){
+                    setPage(Number(page) - 1)
+                }
+            } } href="#" className={`previous ${page === 1 ? 'disabled':''}`}>Previous</a>
+            <a onClick={() => setPage(Number(page) + 1)} href="#" className="next">Next </a>
         </div>
     )
 }

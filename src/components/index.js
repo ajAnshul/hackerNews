@@ -15,16 +15,18 @@ export default class Content extends React.Component {
     updateNews(data, pageNumber) {
         this.setState({
             news: data,
-            pagenumber: pageNumber
+            pageNumber: pageNumber
         })
         this.updateStorage(data, pageNumber);
     }
 
     updateStorage(data, pageNumber) {
+        console.log("data, pageNumber", data, pageNumber)
         let obj = {
             news: data,
             pageNumber: pageNumber
         }
+        this.setState({pageNumber:pageNumber});
         localStorage.setItem('hackerNews', JSON.stringify(obj));
     }
 
@@ -51,6 +53,7 @@ export default class Content extends React.Component {
         if (this.props.match && this.props.match.params) {
             pageNumber = this.props.match.params.pageNumber;
         }
+        console.log("got page", pageNumber);
         let hackerNews = JSON.parse(localStorage.getItem('hackerNews'));
         if (hackerNews && hackerNews.hasOwnProperty('pageNumber') && Number(pageNumber) === Number(hackerNews.pageNumber)) {
             this.getStorageData();
@@ -61,6 +64,8 @@ export default class Content extends React.Component {
 
 
     setPage(pageNumber) {
+        console.log("got page ",pageNumber)
+        if(pageNumber < 1 ) return;
         if (this.state.pageNumber !== pageNumber) {
             this.fetchNews(pageNumber);
             this.setState({
@@ -90,13 +95,14 @@ export default class Content extends React.Component {
         }
     }
     render() {
+        console.log("this.props.match", this.props.match)
         return (
-            <div>
+            <main>
 
                 <Table handleHideClick={this.handleHideClick.bind(this)} news={this.state.news} handleUpvoteClick={this.handleUpvoteClick.bind(this)} />
                 <Paginations history={this.props.history} setPage={this.setPage.bind(this)} page={this.state.pageNumber} />
                 <TimeLine chartData={getChartData(this.state.news)} axisValues={['Votes', 'ID']} />
-            </div>
+            </main>
         )
     }
 }
