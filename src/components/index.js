@@ -21,18 +21,16 @@ export default class Content extends React.Component {
     }
 
     updateStorage(data, pageNumber) {
-        console.log("data, pageNumber", data, pageNumber)
-        let obj = {
-            news: data,
-            pageNumber: pageNumber
-        }
+        let obj = JSON.parse(localStorage.getItem('hackerNews'));
+        obj[pageNumber] = data;
         this.setState({pageNumber:pageNumber});
         localStorage.setItem('hackerNews', JSON.stringify(obj));
     }
 
-    getStorageData(data) {
-        let { news, pageNumber } = JSON.parse(localStorage.getItem('hackerNews'));
-        this.updateNews(news, pageNumber);
+    getStorageData(pageNumber) {
+        let localStorageData = JSON.parse(localStorage.getItem('hackerNews'));
+        let currentPage = localStorageData[pageNumber];
+        this.updateNews(currentPage, pageNumber);
     }
 
     fetchNews(pageNumber) {
@@ -48,15 +46,22 @@ export default class Content extends React.Component {
         })
     }
 
+    isDataAvailableInLocalStorage(pageNumber){
+        let hackerNews = JSON.parse(localStorage.getItem('hackerNews'));
+        if(hackerNews && hackerNews.hasOwnProperty(pageNumber)){
+            return true;
+        }
+
+        return false;
+    }
+
     componentDidMount() {
         let pageNumber = 1;
         if (this.props.match && this.props.match.params) {
             pageNumber = this.props.match.params.pageNumber;
         }
-        console.log("got page", pageNumber);
-        let hackerNews = JSON.parse(localStorage.getItem('hackerNews'));
-        if (hackerNews && hackerNews.hasOwnProperty('pageNumber') && Number(pageNumber) === Number(hackerNews.pageNumber)) {
-            this.getStorageData();
+        if (this.isDataAvailableInLocalStorage(pageNumber)) {
+            this.getStorageData(pageNumber);
         } else {
             this.fetchNews(pageNumber);
         }
@@ -64,10 +69,13 @@ export default class Content extends React.Component {
 
 
     setPage(pageNumber) {
-        console.log("got page ",pageNumber)
         if(pageNumber < 1 ) return;
         if (this.state.pageNumber !== pageNumber) {
-            this.fetchNews(pageNumber);
+            if (this.isDataAvailableInLocalStorage(pageNumber)) {
+                this.getStorageData(pageNumber);
+            } else {
+                this.fetchNews(pageNumber);
+            }
             this.setState({
                 pageNumber: pageNumber
             })
@@ -95,7 +103,6 @@ export default class Content extends React.Component {
         }
     }
     render() {
-        console.log("this.props.match", this.props.match)
         return (
             <main>
 

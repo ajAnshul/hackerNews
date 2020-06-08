@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 const Pagination = ({ setPage, page }) => {
-    console.log("got page", page);
     return (
         <div className="pagination-wrapper">
             <a  onClick={() => {
