@@ -1,5 +1,7 @@
 Hacker news using React with Server Side Rendering and hydration live demo https://hackernewsclonetest.herokuapp.com
 
+lighthous audit : https://web.dev/measure/?gclid=Cj0KCQjwoPL2BRDxARIsAEMm9y9CSseyu_ltMre-J6Z-rC0fCsHHBy4MA5m1LgKkcJ_mK8Lig8tFs8EaAqH8EALw_wcB
+
 ## Available Scripts
 
 In the project directory, you can run:
