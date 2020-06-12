@@ -21,7 +21,10 @@ export default class Content extends React.Component {
     }
 
     updateStorage(data, pageNumber) {
-        let obj = JSON.parse(localStorage.getItem('hackerNews'));
+        let obj = {};
+        if(this.isDataAvailableInLocalStorage()){
+            obj = JSON.parse(localStorage.getItem('hackerNews'));
+        }
         obj[pageNumber] = data;
         this.setState({pageNumber:pageNumber});
         localStorage.setItem('hackerNews', JSON.stringify(obj));
@@ -89,6 +92,7 @@ export default class Content extends React.Component {
         let { news } = this.state;
         let index = news.findIndex(item => item.objectID === objectId);
         if (index >= 0) {
+            if(!news[index]) news[index] = 0;
             news[index].points++;
             this.updateNews(news, this.state.pageNumber);
         }

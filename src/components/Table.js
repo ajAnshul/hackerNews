@@ -81,8 +81,8 @@ export default class Table extends React.Component {
         return news.map((item, key) => {
             return (
                 <tr key={key}>
-                    <td>{item.num_comments}</td>
-                    <td>{item.points}</td>
+                    <td>{item.num_comments ? item.num_comments : 0}</td>
+                    <td>{item.points ? item.points : 0}</td>
                     <td onClick={() => {
                         this.props.handleUpvoteClick(item.objectID)
                     }}>{this.getIcon()}</td>
